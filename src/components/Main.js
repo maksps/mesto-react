@@ -1,8 +1,36 @@
 import React, { useState } from "react";
 import '../index.css';
 import avatar from '../images/kusto-avatar.png';
+import api from "../utils/api";
+import Card from "./Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
+    const [userName, setUserName] = React.useState('');
+    const [userDescription, setUserDescription] = React.useState('');
+    const [userAvatar, setUserAvatar] = React.useState('');
+    const [cards, setCards] = React.useState([]);
+
+
+
+
+    React.useEffect(() => {
+        api.updateUserInfo()
+            .then((info) => {
+                setUserName(info.name);
+                setUserDescription(info.about);
+                setUserAvatar(info.avatar);
+            })
+            .catch((err) => console.log(err))
+    }, []);
+
+
+    React.useEffect(() => {
+        api.getAllCards()
+            .then((data) => {
+                setCards(data);
+            })
+            .catch((err) => console.log(err))
+    }, []);
 
 
     return (
@@ -15,22 +43,31 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
                     aria-label="редактировать аватар">
                     <img
                         className="profile__avatar-img"
-                        src={avatar} alt="Аватар" />
+                        src={userAvatar}
+                        alt="Аватар" />
                 </button>
 
 
                 <div className="profile__info">
-                    <h1 className="profile__name">Жак-Ив Кусто</h1>
+                    <h1 className="profile__name">{userName}</h1>
                     <button className="profile__edit-button profile__edit-btn-image" onClick={onEditProfile} type="button"
                         aria-label="Редактировать" ></button>
                 </div>
-                <p className="profile__job">Исследователь океана</p>
+                <p className="profile__job">{userDescription}</p>
                 <button className="profile__add-button" onClick={onAddPlace} type="button" aria-label="Добавить"></button>
             </section>
             <section className="elements">
+
+                {
+                    cards.map((card) => (
+                        <Card
+                            card={card}
+                        />))
+                }
             </section>
 
-           
+
+
         </main>
     )
 
