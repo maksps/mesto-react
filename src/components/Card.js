@@ -1,10 +1,15 @@
 import React from "react";
 import '../index.css';
 
-function Card({card}) {
+function Card({ card, onCardClick }) {
+
+    function handleClick() {
+        onCardClick(card.name, card.link);
+      } 
+
     return (
-        <div key={card._id} className="element">
-            <img className="element__image" src={card.link} alt={card.name} />
+        <div  className="element" key={card._id} >
+            <img className="element__image" onClick={handleClick} src={card.link} alt={card.name} />
             <div className="element__figcaption">
                 <h2 className="element__text">{card.name}</h2>
                 <div className="element__like-container">

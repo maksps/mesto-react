@@ -4,7 +4,7 @@ import avatar from '../images/kusto-avatar.png';
 import api from "../utils/api";
 import Card from "./Card";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     const [userName, setUserName] = React.useState('');
     const [userDescription, setUserDescription] = React.useState('');
     const [userAvatar, setUserAvatar] = React.useState('');
@@ -62,6 +62,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
                     cards.map((card) => (
                         <Card
                             card={card}
+                            onCardClick = {onCardClick}
                         />))
                 }
             </section>

@@ -4,6 +4,7 @@ import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 
 
@@ -11,11 +12,11 @@ import api from "../utils/api";
 
 function App() {
 
- 
+
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
-  
+  const [selectedCard, setSelectedCard] = useState({});
 
 
   function handleEditAvatarClick() {
@@ -31,10 +32,15 @@ function App() {
     setAddPlacePopupOpen(true);
   }
 
+  function handleCardClick(name, link) {
+    setSelectedCard({name: name, link: link, isOpen: true})
+  }
+
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
+    setSelectedCard(false)
   }
 
 
@@ -48,6 +54,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
       <PopupWithForm
         title={'Редактировать профиль'}
@@ -111,6 +118,12 @@ function App() {
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       />
+      <ImagePopup 
+      // isOpen={selectedCard.isOpen}
+      selectedCard ={selectedCard}
+      onClose={closeAllPopups}
+      />
+
       <Footer />
     </div>
   );
