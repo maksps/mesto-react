@@ -11,21 +11,18 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     const [cards, setCards] = useState([]);
 
     React.useEffect(() => {
-        api.updateUserInfo()
-            .then((info) => {
+        Promise.all([
+            api.updateUserInfo(),
+            api.getAllCards()])
+            .then(([info, data]) => {
                 setUserName(info.name);
                 setUserDescription(info.about);
                 setUserAvatar(info.avatar);
-            })
-            .catch((err) => console.log(err))
-    }, []);
-
-    React.useEffect(() => {
-        api.getAllCards()
-            .then((data) => {
                 setCards(data);
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err);
+            })
     }, []);
 
     return (
@@ -55,7 +52,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                     cards.map((card) => (
                         <Card
                             card={card}
-                            onCardClick = {onCardClick}
+                            onCardClick={onCardClick}
                         />))
                 }
             </section>
