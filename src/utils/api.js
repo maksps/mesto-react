@@ -47,6 +47,7 @@ class Api {
             return this._getResponseData(res);
         });
     }
+
     deleteCard(id) {
         return fetch(`${this._url}${'cards/'}${id}`, {
             method: "DELETE",
@@ -74,7 +75,6 @@ class Api {
             return this._getResponseData(res);
         });
     }
-
 
     changeAvatar(data) {
         return fetch(`${this._url}users/me/avatar`, {

@@ -6,7 +6,6 @@ function Card({ card, onCardClick }) {
     function handleClick() {
         onCardClick(card.name, card.link);
       } 
-
     return (
         <div  className="element" key={card._id} >
             <img className="element__image" onClick={handleClick} src={card.link} alt={card.name} />
@@ -18,10 +17,8 @@ function Card({ card, onCardClick }) {
                 </div>
             </div>
             <button type="button" className="element__btn-delete " aria-label="Удалить"></button>
-
         </div>
     )
-
 }
 
 export default Card;

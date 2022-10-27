@@ -5,13 +5,10 @@ import api from "../utils/api";
 import Card from "./Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-    const [userName, setUserName] = React.useState('');
-    const [userDescription, setUserDescription] = React.useState('');
-    const [userAvatar, setUserAvatar] = React.useState('');
-    const [cards, setCards] = React.useState([]);
-
-
-
+    const [userName, setUserName] = useState('');
+    const [userDescription, setUserDescription] = useState('');
+    const [userAvatar, setUserAvatar] = useState('');
+    const [cards, setCards] = useState([]);
 
     React.useEffect(() => {
         api.updateUserInfo()
@@ -23,7 +20,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             .catch((err) => console.log(err))
     }, []);
 
-
     React.useEffect(() => {
         api.getAllCards()
             .then((data) => {
@@ -31,7 +27,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             })
             .catch((err) => console.log(err))
     }, []);
-
 
     return (
         <main className="main">
@@ -47,7 +42,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                         alt="Аватар" />
                 </button>
 
-
                 <div className="profile__info">
                     <h1 className="profile__name">{userName}</h1>
                     <button className="profile__edit-button profile__edit-btn-image" onClick={onEditProfile} type="button"
@@ -57,7 +51,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                 <button className="profile__add-button" onClick={onAddPlace} type="button" aria-label="Добавить"></button>
             </section>
             <section className="elements">
-
                 {
                     cards.map((card) => (
                         <Card
@@ -66,12 +59,8 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                         />))
                 }
             </section>
-
-
-
         </main>
     )
-
 }
 
 export default Main;
