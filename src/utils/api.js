@@ -5,7 +5,6 @@ class Api {
     }
 
     _getResponseData(res) {
-
         if (!res.ok) {
             Promise.reject(`Ошибка: ${res.status}`);
         }
@@ -20,6 +19,7 @@ class Api {
                 return this._getResponseData(res);
             });
     }
+
     updateUserInfo() {
         return fetch(`${this._url}users/me`, {
             headers: this._headers,

@@ -7,7 +7,7 @@ function Card({ card, onCardClick }) {
         onCardClick(card.name, card.link);
       } 
     return (
-        <div  className="element" key={card._id} >
+        <div  className="element">
             <img className="element__image" onClick={handleClick} src={card.link} alt={card.name} />
             <div className="element__figcaption">
                 <h2 className="element__text">{card.name}</h2>

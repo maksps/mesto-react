@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../index.css';
-import avatar from '../images/kusto-avatar.png';
 import api from "../utils/api";
 import Card from "./Card";
 
@@ -10,7 +9,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     const [userAvatar, setUserAvatar] = useState('');
     const [cards, setCards] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         Promise.all([
             api.updateUserInfo(),
             api.getAllCards()])
@@ -53,6 +52,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                         <Card
                             card={card}
                             onCardClick={onCardClick}
+                            key={card._id}
                         />))
                 }
             </section>

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import logo from '../images/logo-header.svg';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/api";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -86,8 +85,6 @@ function App() {
         isOpen={false}
         onClose={closeAllPopups}
         textButton={'Да'} />
-
-
 
       <PopupWithForm
         title={'Обновить аватар'}

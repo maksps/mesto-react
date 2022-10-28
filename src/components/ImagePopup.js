@@ -1,7 +1,7 @@
 import React from "react";
 import '../index.css';
 
-function ImagePopup({selectedCard, onClose}) {
+function ImagePopup({ selectedCard, onClose }) {
     return (
         <div className={selectedCard.isOpen ? "popup popup_place popup_opened" : "popup popup_place"}
         >
