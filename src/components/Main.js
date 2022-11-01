@@ -17,10 +17,15 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     }, []);
 
     function handleCardLike(card) {
-       
         const isLiked = card.likes.some(i => i._id === currentUser.userId);  // проверяем, есть ли уже лайк на этой карточке
         api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
             setCards((state) => state.map((c) => c._id === card._id ? newCard : c)); // Отправляем запрос в API и получаем обновлённые данные карточки
+        });
+    }
+
+    function handleCardDelete(card) {
+        api.deleteCard(card._id).then(() => {
+            setCards((state) => state.filter((c) => c._id !== card._id)); 
         });
     }
 
@@ -56,6 +61,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                             onCardClick={onCardClick}
                             key={card._id}
                             onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
                         />
                         ))
                 }

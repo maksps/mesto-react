@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import '../index.css';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card({ card, onCardClick, onCardLike }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete}) {
     const currentUser = useContext(CurrentUserContext);
     const isOwn = card.owner._id === currentUser.userId;  // Определяем, являемся ли мы владельцем текущей карточки
 
@@ -14,14 +14,19 @@ function Card({ card, onCardClick, onCardLike }) {
 
     const cardLikeButtonClassName = (
         `element__like ${isLiked ? 'element__like_checked' : 'element__like_unchecked'}` // Создаём переменную, которую после зададим в `className` для кнопки лайка
-    )
+    );
+
     function handleClick() {
         onCardClick(card.name, card.link);
-    }
+    };
+
     function handleLikeClick() {
         onCardLike(card);
-    }
+    };
 
+    function handleDeleteClick() {
+       onCardDelete(card);
+    }
 
     return (
         <div className="element">
@@ -33,7 +38,7 @@ function Card({ card, onCardClick, onCardLike }) {
                     <span className="element__like-count">{card.likes.length}</span>
                 </div>
             </div>
-            <button type="button" className={cardDeleteButtonClassName} aria-label="Удалить"></button>
+            <button type="button" onClick={handleDeleteClick} className={cardDeleteButtonClassName} aria-label="Удалить"></button>
         </div>
     )
 }
