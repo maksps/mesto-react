@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import '../index.css';
 import api from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CardContext } from '../contexts/CardContext';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-    const [cards, setCards] = useState([]);
-    const translation = React.useContext(CurrentUserContext);
+    const [cards, setCards] = useState([]); 
+    const translation = useContext(CurrentUserContext);
     
-    useEffect(() => {
-        api.getAllCards()
-            .then(([data]) => {
-                setCards(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })    
+    useEffect(() => { 
+        api.getAllCards() 
+            .then((data) => { 
+                setCards(data); 
+            }) 
+            .catch((err) => console.log(err)) 
     }, []);
+
 
     return (
         <main className="main">
@@ -42,13 +42,13 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             </section>
             <section className="elements">
                 {
+                   
                     cards.map((card) => (
-                        console.log("card")
-                        // <Card
-                        //     card={card}
-                        //     onCardClick={onCardClick}
-                        //     key={card._id}
-                        // />
+                        <Card
+                            card={card}
+                            onCardClick={onCardClick}
+                            key={card._id}
+                        />
                         ))
                 }
             </section>
