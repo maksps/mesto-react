@@ -3,11 +3,10 @@ import '../index.css';
 import api from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { CardContext } from '../contexts/CardContext';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     const [cards, setCards] = useState([]); 
-    const translation = useContext(CurrentUserContext);
+    const currentUser = useContext(CurrentUserContext);
     
     useEffect(() => { 
         api.getAllCards() 
@@ -28,16 +27,16 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                     aria-label="редактировать аватар">
                     <img
                         className="profile__avatar-img"
-                        src={translation.userAvatar}
+                        src={currentUser.userAvatar}
                         alt="Аватар" />
                 </button>
 
                 <div className="profile__info">
-                    <h1 className="profile__name">{translation.userName}</h1>
+                    <h1 className="profile__name">{currentUser.userName}</h1>
                     <button className="profile__edit-button profile__edit-btn-image" onClick={onEditProfile} type="button"
                         aria-label="Редактировать" ></button>
                 </div>
-                <p className="profile__job">{translation.userDescription}</p>
+                <p className="profile__job">{currentUser.userDescription}</p>
                 <button className="profile__add-button" onClick={onAddPlace} type="button" aria-label="Добавить"></button>
             </section>
             <section className="elements">

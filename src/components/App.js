@@ -21,7 +21,8 @@ function App() {
         setCurrentUser({
           userName: info.name,
           userDescription: info.about,
-          userAvatar: info.avatar
+          userAvatar: info.avatar,
+          userId: info._id
         });
 
       })
