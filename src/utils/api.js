@@ -20,7 +20,7 @@ class Api {
             });
     }
 
-    updateUserInfo() {
+    getUserInfo() {
         return fetch(`${this._url}users/me`, {
             headers: this._headers,
         }).then((res) => {
