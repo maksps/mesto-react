@@ -6,7 +6,7 @@ import Footer from './Footer.js';
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-import { CurrentUserContext, translations } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -29,6 +29,7 @@ function App() {
         console.log(err);
       })
   }, []);
+
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -55,7 +56,7 @@ function App() {
 
   return (
     <div className="App">
-      <CurrentUserContext.Provider value={translations[currentUser]}>
+      <CurrentUserContext.Provider value={currentUser}>
         <Header
           logo={logo}
         />

@@ -5,12 +5,9 @@ import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
     const [cards, setCards] = useState([]);
     const translation = React.useContext(CurrentUserContext);
-
+    
     useEffect(() => {
         api.getAllCards()
             .then(([data]) => {
@@ -46,11 +43,13 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             <section className="elements">
                 {
                     cards.map((card) => (
-                        <Card
-                            card={card}
-                            onCardClick={onCardClick}
-                            key={card._id}
-                        />))
+                        console.log("card")
+                        // <Card
+                        //     card={card}
+                        //     onCardClick={onCardClick}
+                        //     key={card._id}
+                        // />
+                        ))
                 }
             </section>
         </main>
