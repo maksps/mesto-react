@@ -56,6 +56,21 @@ function App() {
     setSelectedCard({})
   }
 
+  function handleUpdateUser(data) {
+    api.editProfile({
+      name: data.name,
+      about: data.about
+    }).then((item) => {
+      setCurrentUser({
+        userName: item.name,
+        userDescription: item.about,
+        userAvatar: item.avatar,
+        userId: item._id
+      });
+      closeAllPopups()
+    }).catch((err) => console.log(err))
+  }
+
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
@@ -72,7 +87,8 @@ function App() {
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups} 
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
 
 

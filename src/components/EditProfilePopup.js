@@ -3,26 +3,32 @@ import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
-function EditProfilePopup({ isOpen, onClose }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const currentUser = useContext(CurrentUserContext); //подписка на контекст
 
-    useEffect(() => {  //установка текущего имени пользователя в форму
+    useEffect(() => {                                    //установка текущего имени пользователя в форму
         setName(currentUser.userName);
         setDescription(currentUser.userDescription);
     }, [currentUser]);
 
     function handleChangeName(e) {
         setName(e.target.value);
-        console.log(e.target.value);
     };
 
     function handleChangeDescription(e) {
         setDescription(e.target.value);
-        console.log(e.target.value);
     };
 
+    function handleSubmit(e) {
+        e.preventDefault();
+        // Передаём значения управляемых компонентов во внешний обработчик
+        onUpdateUser({
+          name: name,
+          about: description,
+        });
+      }
 
     return (
         <PopupWithForm
@@ -30,7 +36,8 @@ function EditProfilePopup({ isOpen, onClose }) {
             name={'edit'}
             isOpen={isOpen}
             onClose={onClose}
-            textButton={'Сохранить'}>
+            textButton={'Сохранить'}
+            onSubmit= {handleSubmit}>
             <div className="input">
                 <input type="text" value={name} onChange={handleChangeName} placeholder="Имя" name="nameInput" className="input__text input__text_type_name"
                     minLength="2" maxLength="40" required />
