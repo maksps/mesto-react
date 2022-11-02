@@ -8,6 +8,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup'
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -115,18 +116,9 @@ function App() {
           onClose={closeAllPopups}
           textButton={'Да'} />
 
-        <PopupWithForm
-          title={'Обновить аватар'}
-          name={'avatar'}
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          textButton={'Сохранить'}>
-          <div className="input">
-            <input type="url" placeholder="Ссылка на картинку" name="avatar" className="input__text input__text_type_avatar"
-              required />
-            <span className="popup__input-error avatar-error"></span>
-          </div>
-        </PopupWithForm>
+          onClose={closeAllPopups} />
 
         <ImagePopup
           selectedCard={selectedCard}
