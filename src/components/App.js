@@ -70,7 +70,22 @@ function App() {
       });
       closeAllPopups()
     }).catch((err) => console.log(err))
+  };
+
+  function handleUpdateavatar(data){
+    api.changeAvatar(data).then((item) => {
+      setCurrentUser({
+        userName: item.name,
+        userDescription: item.about,
+        userAvatar: item.avatar,
+        userId: item._id
+      });
+      closeAllPopups()
+    }).catch((err) => console.log(err))
   }
+
+
+
 
   return (
     <div className="App">
@@ -118,7 +133,8 @@ function App() {
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateavatar} />
 
         <ImagePopup
           selectedCard={selectedCard}
