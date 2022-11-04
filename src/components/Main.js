@@ -1,34 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import '../index.css';
-import api from "../utils/api";
+
 import Card from "./Card";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-    const [cards, setCards] = useState([]); 
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete }) {
+
     const currentUser = useContext(CurrentUserContext);
-    
-    useEffect(() => { 
-        api.getAllCards() 
-            .then((data) => { 
-                setCards(data); 
-            }) 
-            .catch((err) => console.log(err)) 
-    }, []);
-
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser.userId);  // проверяем, есть ли уже лайк на этой карточке
-        api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c)); // Отправляем запрос в API и получаем обновлённые данные карточки
-        }).catch((err) => console.log(err));
-    }
-
-    function handleCardDelete(card) {
-        api.deleteCard(card._id).then(() => {
-            setCards((state) => state.filter((c) => c._id !== card._id)); 
-        }).catch((err) => console.log(err));
-    }
-
 
     return (
         <main className="main">
@@ -54,16 +32,16 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             </section>
             <section className="elements">
                 {
-                   
+
                     cards.map((card) => (
                         <Card
                             card={card}
                             onCardClick={onCardClick}
                             key={card._id}
-                            onCardLike={handleCardLike}
-                            onCardDelete={handleCardDelete}
+                            onCardLike={onCardLike}
+                            onCardDelete={onCardDelete}
                         />
-                        ))
+                    ))
                 }
             </section>
         </main>

@@ -8,7 +8,8 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
-import EditAvatarPopup from './EditAvatarPopup'
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -16,6 +17,15 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    api.getAllCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => console.log(err))
+  }, []);
 
   useEffect(() => {
     api.getUserInfo()
@@ -32,6 +42,19 @@ function App() {
         console.log(err);
       })
   }, []);
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser.userId);  // проверяем, есть ли уже лайк на этой карточке
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c)); // Отправляем запрос в API и получаем обновлённые данные карточки
+    }).catch((err) => console.log(err));
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    }).catch((err) => console.log(err));
+  }
 
 
   function handleEditAvatarClick() {
@@ -72,7 +95,7 @@ function App() {
     }).catch((err) => console.log(err))
   };
 
-  function handleUpdateavatar(data){
+  function handleUpdateavatar(data) {
     api.changeAvatar(data).then((item) => {
       setCurrentUser({
         userName: item.name,
@@ -82,10 +105,17 @@ function App() {
       });
       closeAllPopups()
     }).catch((err) => console.log(err))
-  }
+  };
 
-
-
+  function handleAddPlaceSubmit(data) {
+    api.addCard({
+      name: data.name,
+      link: data.link
+    }).then((newCard) => {
+      setCards([newCard, ...cards]);
+      closeAllPopups()
+    }).catch((err) => console.log(err))
+  };
 
   return (
     <div className="App">
@@ -98,8 +128,10 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
-
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -107,22 +139,11 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-
-        <PopupWithForm
-          title={'Новое место'}
-          name={'add'}
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          textButton={'Создать'}>
-          <div className="input">
-            <input type="text" placeholder="Название" name="name" minLength="2" maxLength="30" required
-              className="input__text input__text_type_placename" />
-            <span className="popup__input-error name-error"></span>
-            <input type="url" placeholder="Ссылка на картинку" name="link" className="input__text input__text_type_link"
-              required />
-            <span className="popup__input-error link-error"></span>
-          </div>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <PopupWithForm
           title={'Вы уверены'}
